@@ -23,6 +23,10 @@ function fifo:length ( )
 	return self.tail - self.head + 1
 end
 
+function fifo:peek ( n )
+	return self [ self.head ]
+end
+
 function fifo:push ( v )
 	self.tail = self.tail + 1
 	self [ self.tail ] = v
