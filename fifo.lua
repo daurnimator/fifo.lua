@@ -50,13 +50,15 @@ function fifo:insert ( n , v )
 		for i = head , p do
 			self [ i - 1 ] = self [ i ]
 		end
+		self [ p - 1 ] = v
 		self.head = head - 1
 	else
 		for i = tail , p , -1 do
 			self [ i + 1 ] = self [ i ]
 		end
+		self [ p ] = v
+		self.tail = tail + 1
 	end
-	self [ p ] = v
 end
 
 function fifo:remove ( n )
