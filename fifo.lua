@@ -1,5 +1,4 @@
 local select , setmetatable = select , setmetatable
-local print = print
 
 local fifo = {}
 local fifo_mt = {
