@@ -22,8 +22,10 @@ function fifo:length ( )
 	return self.tail - self.head + 1
 end
 
+-- Peek at the nth item
 function fifo:peek ( n )
-	return self [ self.head ]
+	n = n or 1
+	return self [ self.head - 1 + n ]
 end
 
 function fifo:push ( v )
