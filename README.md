@@ -1,0 +1,120 @@
+---
+title: fifo.lua
+author:
+  - daurnimator <quae@daurnimator.com>
+---
+
+A lua library/'class' that implements a FIFO.
+Objects in the fifo can be of any type, including `nil`.
+
+Compatible with Lua 5.0, 5.1, 5.2, 5.3 and LuaJIT
+
+
+# Usage
+
+The library returns the constructor `fifo.new`:
+
+```lua
+new_fifo = require "fifo"
+```
+
+## `myfifo:fifo = new_fifo(...)`
+
+Create a new fifo by calling the constructor;
+it optionally takes the initial state.
+
+```lua
+myfifo = new_fifo("foo", "bar")
+```
+
+## `myfifo = myfifo:setempty(f:function)`
+
+The behaviour when trying to `:pop()` or `:remove()` too many items from an empty list is configurable.
+By default an error will be thrown.
+
+You can set a custom behaviour by providing a function to `:setempty()`.
+The return values of your function will be returned by `:pop()` or `:remove()`
+
+```lua
+myfifo:setempty(function(myfifo) return nil end)
+```
+
+
+## `fifo:push(object:*)`
+
+Use the `:push()` method to append an object to the fifo
+
+```lua
+myfifo:push({"an object"})
+```
+
+
+## `object:* = fifo:peek(n:number|none)`
+
+Returns the nth item from the fifo without removing it.
+By default next item from the fifo.
+
+```lua
+myobject = myfifo:peek()
+```
+
+
+## `object:* = fifo:pop()`
+
+Returns the next item from the fifo, removing it.
+
+```lua
+myobject = myfifo:pop()
+```
+
+
+## `fifo:insert(index:number, object:*)`
+
+This can be used to insert an item into the middle of a fifo.
+The index is from the output of the fifo
+where `1` would be the next item popped from the fifo,
+and `myfifo:length()` would be the input (i.e equivalent to `:push()`)
+The efficiency of this operation is proportional to the distance from either end of the fifo.
+
+```lua
+myobject = myfifo:insert(1, {"some object"})
+```
+
+
+## `object:* = fifo:remove(index:number)`
+
+This can be used to remove an item from the middle of a fifo.
+The index is from the output of the fifo
+where `1` would be the next item popped from the fifo,
+and `myfifo:length()` would be the input (i.e equivalent to `:push()`)
+The efficiency of this operation is proportional to the distance from either end of the fifo.
+
+The object removed is returned.
+
+```lua
+myobject = myfifo:remove(2)
+```
+
+
+## `length:number = fifo:length()` and `length:number = #fifo` operator
+
+Returns the current number of items in the fifo.
+Available as `:length()` as the `__len` metamethod doesn't work for tables in lua versions 5.1 and earlier.
+
+
+# Installation
+
+Available via luarocks: `luarocks install fifo`
+
+Alternatively, you may just copy fifo.lua to your own project.
+
+
+# Tests
+
+Use [`busted`](http://olivinelabs.com/busted/) to run tests.
+
+
+# History
+
+This was previously a component of [lomp](https://github.com/daurnimator/lomp2)
+but was useful enough in other projects that I split it out.
