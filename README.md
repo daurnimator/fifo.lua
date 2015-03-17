@@ -30,13 +30,21 @@ myfifo = new_fifo("foo", "bar")
 ## `myfifo = myfifo:setempty(f:function)`
 
 The behaviour when trying to `:pop()` or `:remove()` too many items from an empty list is configurable.
-By default an error will be thrown.
+Returns the fifo itself
 
+By default an error will be thrown.
 You can set a custom behaviour by providing a function to `:setempty()`.
 The return values of your function will be returned by `:pop()` or `:remove()`
 
 ```lua
 myfifo:setempty(function(myfifo) return nil end)
+```
+
+This method returns self, which makes it easy to use at construction time:
+e.g. to create a new fifo where `:pop()` returns `nil` when empty:
+
+```lua
+myfifo = new_fifo():setempty(function() return nil end)
 ```
 
 
