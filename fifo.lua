@@ -1,5 +1,9 @@
 local select , setmetatable = select , setmetatable
 
+local function is_integer(x)
+	return x % 1 == 0
+end
+
 local fifo = {}
 local fifo_mt = {
 	__index = fifo ;
@@ -26,6 +30,8 @@ fifo_mt.__len = fifo.length
 -- Peek at the nth item
 function fifo:peek ( n )
 	n = n or 1
+	assert(is_integer(n), "bad index to :peek()")
+
 	local index = self.head - 1 + n
 	if index > self.tail then
 		return nil, false
@@ -52,7 +58,7 @@ end
 function fifo:insert ( n , v )
 	local head , tail = self.head , self.tail
 
-	if n <= 0 or head + n > tail + 2 then
+	if n <= 0 or head + n > tail + 2 or not is_integer(n) then
 		error("bad index to :insert()")
 	end
 
@@ -74,6 +80,10 @@ end
 
 function fifo:remove ( n )
 	local head , tail = self.head , self.tail
+
+	if is_integer(n) then
+		error("bad index to :remove()")
+	end
 
 	if head + n > tail then return self:empty() end
 
