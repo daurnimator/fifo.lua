@@ -12,7 +12,7 @@ local fifo_mt = {
 	end ;
 }
 
-local empty_default = function ( self ) error ( "Fifo empty" ) end
+local empty_default = function ( _ ) error ( "Fifo empty" ) end
 
 function fifo.new ( ... )
 	return setmetatable ( { empty = empty_default , head = 1 , tail = select("#",...) , ... } , fifo_mt )
