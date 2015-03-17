@@ -34,4 +34,20 @@ describe("Everything works.", function()
 			assert.same(0, #f)
 		]], nil, "t", _ENV))
 	end
+	it("insert works", function()
+		local f = new_fifo("foo")
+		f:insert(1, "baz")
+		f:insert(f:length()+1, "bar")
+		assert.same("baz", f:pop())
+		assert.same("foo", f:pop())
+		assert.same("bar", f:pop())
+		assert.errors(function() f:pop() end)
+
+		f:insert(1, "qux")
+		assert.same("qux", f:pop())
+
+		assert.errors(function() f:insert(2, "too far") end)
+
+		assert.errors(function() f:insert(0) end)
+	end)
 end)

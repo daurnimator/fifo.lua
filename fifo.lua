@@ -52,6 +52,10 @@ end
 function fifo:insert ( n , v )
 	local head , tail = self.head , self.tail
 
+	if n <= 0 or head + n > tail + 2 then
+		error("bad index to :insert()")
+	end
+
 	local p = head + n - 1
 	if p <= (head + tail)/2 then
 		for i = head , p do

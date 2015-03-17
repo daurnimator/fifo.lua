@@ -82,7 +82,7 @@ myobject = myfifo:pop()
 This can be used to insert an item into the middle of a fifo.
 The index is from the output of the fifo
 where `1` would be the next item popped from the fifo,
-and `myfifo:length()` would be the input (i.e equivalent to `:push()`)
+and `myfifo:length() + 1` would be equivalent to `:push()`
 The efficiency of this operation is proportional to the distance from either end of the fifo.
 
 ```lua
