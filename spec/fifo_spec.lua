@@ -21,4 +21,17 @@ describe("Everything works.", function()
 		f:pop()
 		assert.same(0, f:length())
 	end)
+	if _VERSION > "Lua 5.1" then
+		it("length operator works", load([[
+			local new_fifo = require "fifo"
+			local f = new_fifo("foo", "bar")
+			assert.same(2, #f)
+			f:push("baz")
+			assert.same(3, #f)
+			f:pop()
+			f:pop()
+			f:pop()
+			assert.same(0, #f)
+		]], nil, "t", _ENV))
+	end
 end)

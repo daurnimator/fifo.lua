@@ -21,6 +21,7 @@ end
 function fifo:length ( )
 	return self.tail - self.head + 1
 end
+fifo_mt.__len = fifo.length
 
 -- Peek at the nth item
 function fifo:peek ( n )
