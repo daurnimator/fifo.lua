@@ -96,22 +96,4 @@ function fifo:setempty ( func )
 	return self
 end
 
-local iter_helper = function ( f , last )
-	local nexti = f.head+last
-	if nexti > f.tail then return nil end
-	return last+1 , f[nexti]
-end
-
-function fifo:iter ( )
-	return iter_helper , self , 0
-end
-
-function fifo:foreach ( func )
-	for k,v in self:iter() do
-		func(k,v)
-	end
-end
-
-fifo_mt.__len = fifo.length
-
 return fifo.new
