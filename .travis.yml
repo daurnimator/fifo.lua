@@ -1,0 +1,26 @@
+language: c
+
+env:
+  global:
+    - LUAROCKS=2.2.1
+  matrix:
+    - LUA=lua5.1
+    - LUA=lua5.2
+    - LUA=lua5.3
+    - LUA=luajit2.0
+    - LUA=luajit2.1
+
+before_install:
+  - bash .travis/setup_lua.sh
+  - sudo luarocks install busted
+
+install:
+  - sudo luarocks make
+
+script:
+  - busted
+
+notifications:
+  email:
+    on_success: change
+    on_failure: always
