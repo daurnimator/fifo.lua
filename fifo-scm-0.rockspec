@@ -11,7 +11,7 @@ dependencies = {
 }
 
 source = {
-	url = "git+https://github.com/daurnimator/fifo.lua.git";
+	url = "git://github.com/daurnimator/fifo.lua.git";
 }
 
 build = {
