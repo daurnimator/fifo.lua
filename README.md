@@ -57,13 +57,14 @@ myfifo:push({"an object"})
 ```
 
 
-## `object:* = fifo:peek(n:number|none)`
+## `object:*, exists:bool = fifo:peek(n:number|none)`
 
-Returns the nth item from the fifo without removing it.
-By default next item from the fifo.
+Allows you to inspect a fifo without removing items from it.
+Returns the item at the given index (or `nil`) and whether it existed (as `nil` is a valid value).
+By default uses the next item from the fifo.
 
 ```lua
-myobject = myfifo:peek()
+exists, myobject = myfifo:peek()
 ```
 
 

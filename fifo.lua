@@ -26,7 +26,12 @@ fifo_mt.__len = fifo.length
 -- Peek at the nth item
 function fifo:peek ( n )
 	n = n or 1
-	return self [ self.head - 1 + n ]
+	local index = self.head - 1 + n
+	if index > self.tail then
+		return nil, false
+	else
+		return self [ index ], true
+	end
 end
 
 function fifo:push ( v )
