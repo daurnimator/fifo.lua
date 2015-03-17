@@ -87,6 +87,7 @@ end
 
 function fifo:setempty ( func )
 	self.empty = func
+	return self
 end
 
 local iter_helper = function ( f , last )
