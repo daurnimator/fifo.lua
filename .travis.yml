@@ -12,13 +12,17 @@ env:
 
 before_install:
   - bash .travis/setup_lua.sh
+  - sudo luarocks install luacov-coveralls
   - sudo luarocks install busted
 
 install:
   - sudo luarocks make
 
 script:
-  - busted
+  - busted -c
+
+after_success:
+  - luacov-coveralls -v
 
 notifications:
   email:

@@ -4,6 +4,14 @@ Objects in the fifo can be of any type, including `nil`.
 Compatible with Lua 5.1, 5.2, 5.3 and LuaJIT
 
 
+# Status
+
+This project has been used in production since 2012.
+
+[![Build Status](https://travis-ci.org/daurnimator/fifo.lua.svg)](https://travis-ci.org/daurnimator/fifo.lua)
+[![Coverage Status](https://coveralls.io/repos/daurnimator/fifo.lua/badge.svg?branch=master)](https://coveralls.io/r/daurnimator/fifo.lua?branch=master)
+
+
 # Documentation
 
 Please see the `doc/` folder.
