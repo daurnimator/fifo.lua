@@ -1,6 +1,10 @@
 local new_fifo = require "fifo"
 
 describe("Everything works.", function()
+	it("doesn't let you set a field", function()
+		local f = new_fifo()
+		assert.errors(function() f.foo = "bar" end)
+	end)
 	it("peek works", function()
 		local f = new_fifo()
 		f:push("foo")
@@ -10,6 +14,8 @@ describe("Everything works.", function()
 		assert.same("bar", (f:peek(2)))
 		f:pop()
 		assert.same("bar", (f:peek()))
+
+		assert.same({nil, false}, {f:peek(20)})
 	end)
 	it("length works", function()
 		local f = new_fifo("foo", "bar")
@@ -38,8 +44,10 @@ describe("Everything works.", function()
 		local f = new_fifo("foo")
 		f:insert(1, "baz")
 		f:insert(f:length()+1, "bar")
+		f:insert(f:length(), "corge") -- 2nd from end
 		assert.same("baz", f:pop())
 		assert.same("foo", f:pop())
+		assert.same("corge", f:pop())
 		assert.same("bar", f:pop())
 		assert.errors(function() f:pop() end)
 
@@ -69,5 +77,7 @@ describe("Everything works.", function()
 		assert.same("qux", f:remove(2))
 		assert.same("bar", f:remove(1))
 		assert.same(0, f:length())
+
+		assert.errors(function() f:remove(50.5) end)
 	end)
 end)
