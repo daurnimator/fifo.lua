@@ -2,7 +2,16 @@
 title: fifo.lua
 author:
   - daurnimator <quae@daurnimator.com>
+section: 3
 ---
+
+# DESCRIPTION
+
+A lua library/'class' that implements a FIFO.
+Objects in the fifo can be of any type, including `nil`.
+
+
+# USAGE
 
 The library returns the constructor `fifo.new`:
 

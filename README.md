@@ -8,6 +8,12 @@ Compatible with Lua 5.0, 5.1, 5.2, 5.3 and LuaJIT
 
 Please see the `doc/` folder.
 
+You can generate a man page using [pandoc](http://pandoc.org/):
+
+```
+pandoc doc/index.md -s -t man -o /usr/local/share/man/man3/fifo.lua.3
+```
+
 
 # Installation
 
