@@ -24,7 +24,14 @@ Alternatively, you may just copy fifo.lua to your own project.
 
 # Tests
 
-Use [`busted`](http://olivinelabs.com/busted/) to run tests.
+You will need
+
+  - [busted](http://olivinelabs.com/busted/)
+  - [luacov](https://keplerproject.github.io/luacov/)
+
+Run `busted -c` to run tests
+You can then generate a coverage report by running `luacov`
+(it will write the report to luacov.report.out)
 
 
 # History
