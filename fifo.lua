@@ -81,11 +81,11 @@ end
 function fifo:remove ( n )
 	local head , tail = self.head , self.tail
 
-	if is_integer(n) then
+	if n <= 0 or not is_integer(n) then
 		error("bad index to :remove()")
 	end
 
-	if head + n > tail then return self:empty() end
+	if head + n - 1 > tail then return self:empty() end
 
 	local p = head + n - 1
 	local v = self [ p ]
