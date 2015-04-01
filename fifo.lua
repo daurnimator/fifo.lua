@@ -1,5 +1,7 @@
 local select , setmetatable = select , setmetatable
 
+local pack = table.pack or function(...) return { n = select("#", ...); ... } end
+
 local function is_integer(x)
 	return x % 1 == 0
 end
@@ -15,16 +17,21 @@ local fifo_mt = {
 local empty_default = function ( _ ) error ( "Fifo empty" ) end
 
 function fifo.new ( ... )
-	return setmetatable({
+	local self = setmetatable({
 		empty = empty_default;
-		head = 1;
-		tail = select("#",...);
-		data = {...};
+		head = false;
+		tail = false;
+		n = 0;
 	}, fifo_mt)
+	local a = pack(...)
+	for i=1, a.n do
+		self:push(a[i])
+	end
+	return self
 end
 
 function fifo:length ( )
-	return self.tail - self.head + 1
+	return self.n
 end
 fifo_mt.__len = fifo.length
 
@@ -33,77 +40,87 @@ function fifo:peek ( n )
 	n = n or 1
 	assert(is_integer(n), "bad index to :peek()")
 
-	local index = self.head - 1 + n
-	if index > self.tail then
-		return nil, false
-	else
-		return self.data[index], true
+	local node = self.head
+	if node == false then return nil, false end
+	for i=1, n-1 do
+		node = node.next
+		if node == false then return nil, false end
 	end
+	return node.data, true
 end
 
 function fifo:push ( v )
-	self.tail = self.tail + 1
-	self.data[self.tail] = v
+	local new_node = {
+		next = false;
+		data = v;
+	}
+	local prev_tail = self.tail
+	if prev_tail then
+		prev_tail.next = new_node
+	else
+		self.head = new_node
+	end
+	self.tail = new_node
+	self.n = self.n + 1
 end
 
 function fifo:pop ( )
-	local head , tail = self.head , self.tail
-	if head > tail then return self:empty() end
-
-	local v = self.data[head]
-	self.data[head] = nil
-	self.head = head + 1
-	return v
+	local node = self.head
+	if node == false then return self:empty() end
+	self.head = node.next
+	if self.tail == node then
+		self.tail = false
+	end
+	self.n = self.n - 1
+	return node.data
 end
 
 function fifo:insert ( n , v )
-	local head , tail = self.head , self.tail
-
-	if n <= 0 or head + n > tail + 2 or not is_integer(n) then
+	if n <= 0 or not is_integer(n) then
 		error("bad index to :insert()")
 	end
-
-	local p = head + n - 1
-	if p <= (head + tail)/2 then
-		for i = head , p do
-			self.data[i- 1] = self.data[i]
-		end
-		self.data[p- 1] = v
-		self.head = head - 1
-	else
-		for i = tail , p , -1 do
-			self.data[i+ 1] = self.data[i]
-		end
-		self.data[p] = v
-		self.tail = tail + 1
+	local prev_node
+	local node = self.head
+	for i=1, n-1 do
+		if node == false then error("bad index to :insert()") end
+		prev_node, node = node, node.next
 	end
+	local new_node = {
+		next = node;
+		data = v;
+	}
+	if n == 1 then
+		self.head = new_node
+	else
+		prev_node.next = new_node
+	end
+	if node == false then
+		self.tail = new_node
+	end
+	self.n = self.n + 1
 end
 
 function fifo:remove ( n )
-	local head , tail = self.head , self.tail
-
 	if n <= 0 or not is_integer(n) then
 		error("bad index to :remove()")
 	end
-
-	if head + n - 1 > tail then return self:empty() end
-
-	local p = head + n - 1
-	local v = self.data[p]
-
-	if p <= (head + tail)/2 then
-		for i = p , head , -1 do
-			self.data[i] = self.data[i-1]
-		end
-		self.head = head + 1
+	local prev_node
+	local node = self.head
+	if n == 1 then
+		if node == false then return self:empty() end
+		self.head = node.next
 	else
-		for i = p , tail do
-			self.data[i] = self.data[i+1]
+		for i=1, n-1 do
+			if node == false then return self:empty() end
+			prev_node, node = node, node.next
 		end
-		self.tail = tail - 1
+		prev_node.next = node.next
 	end
-
-	return v
+	if self.tail == node then
+		self.tail = false
+	end
+	self.n = self.n - 1
+	return node.data
 end
 
 function fifo:setempty ( func )
