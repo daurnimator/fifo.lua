@@ -1,5 +1,5 @@
 package = "fifo"
-version = "scm-0"
+version = "0.2-0"
 
 description= {
 	summary = "A lua library/'class' that implements a FIFO";
@@ -12,7 +12,8 @@ dependencies = {
 }
 
 source = {
-	url = "git://github.com/daurnimator/fifo.lua.git";
+	url = "https://github.com/daurnimator/fifo.lua/archive/0.2.zip";
+	dir = "fifo.lua-0.2";
 }
 
 build = {
