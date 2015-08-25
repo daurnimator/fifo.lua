@@ -38,7 +38,7 @@ describe("Everything works.", function()
 			f:pop()
 			f:pop()
 			assert.same(0, #f)
-		]], nil, "t", _ENV))
+		]], nil, "t", _ENV)) -- luacheck: ignore 113
 	end
 	it("insert works", function()
 		local f = new_fifo("foo")

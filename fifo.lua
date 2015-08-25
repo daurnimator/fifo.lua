@@ -7,7 +7,7 @@ end
 local fifo = {}
 local fifo_mt = {
 	__index = fifo ;
-	__newindex = function ( f , k , v )
+	__newindex = function()
 		error("Tried to set table field in fifo")
 	end ;
 }
