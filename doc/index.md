@@ -5,6 +5,11 @@ author:
 section: 3
 ---
 
+# NAME
+
+fifo.lua - A lua library/'class' that implements a FIFO
+
+
 # DESCRIPTION
 
 A lua library/'class' that implements a FIFO.
