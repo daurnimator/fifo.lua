@@ -1,8 +1,10 @@
 language: c
 
+sudo: false
+
 env:
   global:
-    - LUAROCKS=2.2.1
+    - LUAROCKS=2.2.2
   matrix:
     - LUA=lua5.1
     - LUA=lua5.2
@@ -11,12 +13,12 @@ env:
     - LUA=luajit2.1
 
 before_install:
-  - bash .travis/setup_lua.sh
-  - sudo luarocks install luacov-coveralls
-  - sudo luarocks install busted
+  - source .travis/setenv_lua.sh
+  - luarocks install luacov-coveralls
+  - luarocks install busted
 
 install:
-  - sudo luarocks make
+  - luarocks make
 
 script:
   - busted -c
