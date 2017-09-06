@@ -70,7 +70,7 @@ Returns the item at the given index (or `nil`) and whether it existed (as `nil` 
 By default uses the next item from the fifo.
 
 ```lua
-exists, myobject = myfifo:peek()
+myobject, exists = myfifo:peek()
 ```
 
 
