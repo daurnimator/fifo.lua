@@ -33,6 +33,7 @@ it optionally takes the initial state.
 myfifo = new_fifo("foo", "bar")
 ```
 
+
 ## `myfifo = myfifo:setempty(f:function)`
 
 The behaviour when trying to `:pop()` or `:remove()` too many items from an empty list is configurable.
