@@ -1,7 +1,7 @@
 A lua library/'class' that implements a FIFO.
 Objects in the fifo can be of any type, including `nil`.
 
-Compatible with Lua 5.1, 5.2, 5.3 and LuaJIT
+Compatible with Lua 5.1, 5.2, 5.3, 5.4 and LuaJIT
 
 
 # Status
